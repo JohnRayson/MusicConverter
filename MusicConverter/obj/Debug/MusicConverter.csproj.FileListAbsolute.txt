@@ -1,0 +1,11 @@
+D:\Development\GitHub\MusicConverter\MusicConverter\bin\Debug\MusicConverter.exe.config
+D:\Development\GitHub\MusicConverter\MusicConverter\obj\Debug\MusicConverter.csprojResolveAssemblyReference.cache
+D:\Development\GitHub\MusicConverter\MusicConverter\obj\Debug\MusicConverter.MusicConverter.resources
+D:\Development\GitHub\MusicConverter\MusicConverter\obj\Debug\MusicConverter.Properties.Resources.resources
+D:\Development\GitHub\MusicConverter\MusicConverter\obj\Debug\MusicConverter.csproj.GenerateResource.Cache
+D:\Development\GitHub\MusicConverter\MusicConverter\bin\Debug\MusicConverter.exe
+D:\Development\GitHub\MusicConverter\MusicConverter\bin\Debug\MusicConverter.pdb
+D:\Development\GitHub\MusicConverter\MusicConverter\bin\Debug\System.Data.SQLite.dll
+D:\Development\GitHub\MusicConverter\MusicConverter\obj\Debug\MusicConverter.exe
+D:\Development\GitHub\MusicConverter\MusicConverter\obj\Debug\MusicConverter.pdb
+D:\Development\GitHub\MusicConverter\MusicConverter\bin\Debug\musicLibrary.SQLiteDB
