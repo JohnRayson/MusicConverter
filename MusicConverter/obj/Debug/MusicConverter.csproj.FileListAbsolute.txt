@@ -8,4 +8,4 @@ D:\Development\GitHub\MusicConverter\MusicConverter\bin\Debug\MusicConverter.pdb
 D:\Development\GitHub\MusicConverter\MusicConverter\bin\Debug\System.Data.SQLite.dll
 D:\Development\GitHub\MusicConverter\MusicConverter\obj\Debug\MusicConverter.exe
 D:\Development\GitHub\MusicConverter\MusicConverter\obj\Debug\MusicConverter.pdb
-D:\Development\GitHub\MusicConverter\MusicConverter\bin\Debug\musicLibrary.SQLiteDB
+D:\Development\GitHub\MusicConverter\MusicConverter\bin\Debug\musicLibrary.sqlite
