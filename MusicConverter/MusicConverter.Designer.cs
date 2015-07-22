@@ -34,12 +34,13 @@
             this.DestinationFolderLbl = new System.Windows.Forms.Label();
             this.StartBtn = new System.Windows.Forms.Button();
             this.progressGrid = new System.Windows.Forms.DataGridView();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.progress_artist = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.progress_album = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.progress_track = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.progress_title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.progress_year = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.TracksIndexLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.progressGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -108,15 +109,6 @@
             this.progressGrid.Size = new System.Drawing.Size(787, 327);
             this.progressGrid.TabIndex = 5;
             // 
-            // progressBar
-            // 
-            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(179, 104);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(621, 52);
-            this.progressBar.TabIndex = 6;
-            // 
             // progress_artist
             // 
             this.progress_artist.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -147,11 +139,30 @@
             this.progress_year.Name = "progress_year";
             this.progress_year.Width = 40;
             // 
+            // progressBar
+            // 
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.Location = new System.Drawing.Point(179, 104);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(621, 52);
+            this.progressBar.TabIndex = 6;
+            // 
+            // TracksIndexLbl
+            // 
+            this.TracksIndexLbl.AutoSize = true;
+            this.TracksIndexLbl.Location = new System.Drawing.Point(615, 88);
+            this.TracksIndexLbl.Name = "TracksIndexLbl";
+            this.TracksIndexLbl.Size = new System.Drawing.Size(110, 13);
+            this.TracksIndexLbl.TabIndex = 7;
+            this.TracksIndexLbl.Text = "Tracks Indexed: 0 / 0";
+            // 
             // MusicConverter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(812, 521);
+            this.Controls.Add(this.TracksIndexLbl);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.progressGrid);
             this.Controls.Add(this.StartBtn);
@@ -181,6 +192,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn progress_track;
         private System.Windows.Forms.DataGridViewTextBoxColumn progress_title;
         private System.Windows.Forms.DataGridViewTextBoxColumn progress_year;
+        private System.Windows.Forms.Label TracksIndexLbl;
     }
 }
 

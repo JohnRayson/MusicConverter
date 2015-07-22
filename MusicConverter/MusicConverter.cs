@@ -14,6 +14,7 @@ namespace MusicConverter
 {
     public partial class MusicConverter : Form
     {
+        private int totalTracks = 0;
         private Config config = new Config();
         private string exeLoc, ffmpegLoc;
         BackgroundWorker worker = new BackgroundWorker();
@@ -60,6 +61,8 @@ namespace MusicConverter
             {
                 if (!worker.IsBusy)
                 {
+
+                    totalTracks = 0;
                     progressBar.Maximum = 100;
                     progressBar.Step = 1;
                     progressBar.Value = 0;
@@ -76,7 +79,9 @@ namespace MusicConverter
 
             string destFolder = config._destDir;
             string[] tracks = Directory.GetFiles(config._srcDir, "*.mp3", SearchOption.AllDirectories);
-            
+
+            worker.ReportProgress(tracks.Length, new TrackInfo());
+
             StringBuilder sql, sqlCols, sqlVals;
             string trackName;
             int fileNum = 0;
@@ -90,9 +95,8 @@ namespace MusicConverter
                 trackName = track.Substring(track.LastIndexOf(@"\")+1);
                 trackName = trackName.Remove(trackName.Length - 4);
 
-                string fileInfo, trimStr;
+                string fileInfo, trimKey, trimVal;
                 string[] lines;
-                char[] splitChar = new char[]{':'};
                 
                 try
                 {
@@ -121,36 +125,51 @@ namespace MusicConverter
 
                     foreach(string line in lines)
                     {
-                        trimStr = line.TrimStart();
+                        trimKey = line.TrimStart();
+                        if (trimKey.IndexOf(':') > 0)
+                            trimVal = line.Split(new char[] { ':' })[1].Trim();
+                        else
+                            trimVal = "";
 
-                        if (trimStr.IndexOf("publisher") == 0)
-                            trackInfo._publisher = line.Split(splitChar)[1].Trim();
-                        if (trimStr.IndexOf("track") == 0)
-                            trackInfo._track = line.Split(splitChar)[1].Trim();
-                        if (trimStr.IndexOf("album") == 0)
-                            trackInfo._album = line.Split(splitChar)[1].Trim();
-                        if (trimStr.IndexOf("title") == 0)
-                            trackInfo._title = line.Split(splitChar)[1].Trim();
-                        if (trimStr.IndexOf("genre") == 0)
-                            trackInfo._genre = line.Split(splitChar)[1].Trim();
-                        if (trimStr.IndexOf("composer") == 0)
-                            trackInfo._composer = line.Split(splitChar)[1].Trim();
-                        if (trimStr.IndexOf("artist") == 0)
-                            trackInfo._artist = line.Split(splitChar)[1].Trim();
-                        if (trimStr.IndexOf("date") == 0)
-                            trackInfo._year = line.Split(splitChar)[1].Trim();
+                        // some tracks have multiple metadata "Prince - Purple Rain" - so only set them if its not empty
+                        if (trimVal == "")
+                            continue;
+
+                        if (trimKey.IndexOf("publisher") == 0)
+                            trackInfo._publisher = trimVal;
+                        if (trimKey.IndexOf("track") == 0)
+                            trackInfo._track = trimVal;
+                        if (trimKey.IndexOf("album") == 0 && trimKey.IndexOf("album_artist") != 0)
+                            trackInfo._album = trimVal;
+                        if (trimKey.IndexOf("title") == 0)
+                            trackInfo._title = trimVal;
+                        if (trimKey.IndexOf("genre") == 0)
+                            trackInfo._genre = trimVal;
+                        if (trimKey.IndexOf("composer") == 0)
+                            trackInfo._composer = trimVal;
+                        if (trimKey.IndexOf("artist") == 0)
+                            trackInfo._artist = trimVal;
+                        if (trimKey.IndexOf("date") == 0)
+                            trackInfo._year = trimVal;
                     }
 
+                    // correct some of the settings / missing values
                     while (trackInfo._track.Length < 2)
                         trackInfo._track = string.Format("0{0}", trackInfo._track);
+
+                    if (trackInfo._artist == "")
+                        trackInfo._artist = "Unknown Artist";
+                    if (trackInfo._album == "")
+                        trackInfo._album = "Unknown Album";
+                    if (trackInfo._title == "")
+                        trackInfo._title = "Unknown Track";
 
                     destFolder = string.Format(@"{0}\{1}\{2}\", destFolder, trackInfo._artist, trackInfo._album);
 
                     trackName = string.Format("{0} - {1}", trackInfo._track, trackInfo._title);
 
                     // update the UI
-                    int precentComplete = ((100/tracks.Length)*fileNum);
-                    worker.ReportProgress(precentComplete, trackInfo);
+                    worker.ReportProgress(fileNum, trackInfo);
 
                     // index it
                     string connStr = string.Format(@"Data Source={0}\musicLibrary.sqlite; Version=3;", exeLoc);
@@ -273,7 +292,18 @@ namespace MusicConverter
         {
             TrackInfo trackInfo = (TrackInfo)e.UserState;
 
-            progressBar.Value = e.ProgressPercentage;
+            if (totalTracks == 0)
+            {
+                progressBar.Value = 0;
+                totalTracks = e.ProgressPercentage;
+                TracksIndexLbl.Text = string.Format("Tracks Indexed: 0/{0}", totalTracks);
+            }
+            else
+            {
+                int precentComplete = ((100 / totalTracks) * e.ProgressPercentage);
+                progressBar.Value = precentComplete;
+                TracksIndexLbl.Text = string.Format("Tracks Indexed: {0}/{1}", e.ProgressPercentage, totalTracks);
+            }
 
             progressGrid.Rows.Add(trackInfo._artist, trackInfo._album, trackInfo._track, trackInfo._title, trackInfo._year);
 
